@@ -6,9 +6,9 @@ buildscript {
         jcenter()
     }
 
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.41'
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.11.0'
 
@@ -32,7 +32,7 @@ task clean(type: Delete) {
 ext.compiled_sdk_version = 27
 ext.target_sdk_version = 27
 ext.min_sdk_version = 21
-ext.build_tools_version = '27.0.2'
+ext.build_tools_version = '27.0.3'
 
 ext.dagger_version = '2.12'
 ext.timber_version = '4.6.0'
@@ -40,9 +40,10 @@ ext.gson_version = '2.8.0'
 ext.retrofit_version = '2.3.0'
 ext.mock_web_server_version = '3.7.0'
 ext.mock_web_server_plus_version = '2.0.0'
-ext.support_version = '27.0.2'
-ext.android_arch_version = '1.0.0'
-ext.rx_kotlin = '2.2.0'
+ext.support_version = '27.1.0'
+ext.android_arch_version = '1.1.1'
+ext.android_room_version = '1.1.0'
+ext.kotlin_coroutines_version = '0.22.5'
 ext.hamcrest_version = '1.3'
 ext.mockito_version = '2.11.0'
 ext.mockito_core_version = '2.11.0'
