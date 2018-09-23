@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">AndroidKotlinBoilerPlate</string>
-    <string name="android_kotlin_boilerplate_code">Android Kotlin Boilerplate Code</string>
-    <string name="click_me">Click Me</string>
-    <string name="enter_some_text_here">Enter some text here</string>
+    <string name="app_name">Quran Notes</string>
+    <string name="close">Close</string>
+    <string name="loading">Loading</string>
+    <string name="downloading">Downloading</string>
+    <string name="btn_download">Download</string>
+    <string name="label_download_edition_notes">Please select Quran edition you would like to download and use</string>
 </resources>

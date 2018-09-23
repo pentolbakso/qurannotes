@@ -1,4 +1,4 @@
-package com.kodebonek.qurannotes.util
+package com.djakartalloyd.dlmarket.util
 
 import android.app.Activity
 import android.app.Application

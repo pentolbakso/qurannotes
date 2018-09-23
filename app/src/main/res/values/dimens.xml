@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="margin_very_small">5dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_large">22dp</dimen>
+    <dimen name="margin_very_large">48dp</dimen>
+    <dimen name="padding_page">20dp</dimen>
+
+    <dimen name="padding_tiny">2dp</dimen>
+    <dimen name="padding_very_small">5dp</dimen>
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_large">22dp</dimen>
+
+    <dimen name="textsize_huge">26sp</dimen>
+    <dimen name="textsize_large">18sp</dimen>
+    <dimen name="textsize_normal">14sp</dimen>
+    <dimen name="textsize_small">12sp</dimen>
+    <dimen name="textsize_very_small">10sp</dimen>
+
+    <!-- Overriding Default Bottom Navigation sizes-->
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">12sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
+    <dimen name="vessel_icon">60dp</dimen>
+    <!--<dimen name="design_bottom_navigation_height" tools:override="true">70dp</dimen>-->
+
+</resources>

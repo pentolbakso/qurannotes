@@ -1,4 +1,4 @@
-package com.kodebonek.qurannotes.ui
+package com.kodebonek.qurannotes.ui.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
@@ -10,7 +10,6 @@ import android.widget.Toast
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import com.kodebonek.qurannotes.R
-import com.kodebonek.qurannotes.data.db.entity.User
 import timber.log.Timber
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_main.*
@@ -34,21 +33,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         //init the mainViewModel
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
-        mainViewModel.loadUsers().observe(this, Observer<List<User>> { users ->
-            users?.forEach { user -> Timber.d(user.toString()) }
-        })
-
-//
-//        //find the main btn
-//        val mainBtn = findViewById<Button>(R.id.btn_clickme)
-        //set onClick to the main btn
-        btnClickMe.setOnClickListener({ Toast.makeText(this, "You Clicked the Main Button", Toast.LENGTH_LONG).show() })
-
     }
 
 
     override fun supportFragmentInjector(): DispatchingAndroidInjector<Fragment> {
         return fragmentInjector
-
     }
 }

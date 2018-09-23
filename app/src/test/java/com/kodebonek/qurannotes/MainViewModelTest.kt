@@ -1,9 +1,8 @@
 package com.kodebonek.qurannotes
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.kodebonek.qurannotes.data.Repository
 import com.kodebonek.qurannotes.data.db.entity.User
-import com.kodebonek.qurannotes.ui.MainViewModel
+import com.kodebonek.qurannotes.ui.main.MainViewModel
 import com.kodebonek.qurannotes.util.LiveDataTestUtil.getValue
 import com.kodebonek.qurannotes.util.TestUtil
 import org.hamcrest.CoreMatchers.nullValue

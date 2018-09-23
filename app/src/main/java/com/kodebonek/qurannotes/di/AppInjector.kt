@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import com.djakartalloyd.dlmarket.util.SimpleActivityLifecycleCallbacks
 
 import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import com.kodebonek.qurannotes.App
-import com.kodebonek.qurannotes.util.SimpleActivityLifecycleCallbacks
 import timber.log.Timber
 
 /**

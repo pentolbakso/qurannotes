@@ -1,15 +1,11 @@
 package com.kodebonek.qurannotes.di
 
+import com.kodebonek.qurannotes.ui.download.DownloadActivity
+import com.kodebonek.qurannotes.ui.download.SelectEditionFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import com.kodebonek.qurannotes.ui.MainActivity
-
-/**
- * Created by <@Po10cio> on 8/8/17 for KotlinDagger
- *
- *
-
- */
+import com.kodebonek.qurannotes.ui.main.MainActivity
+import com.kodebonek.qurannotes.ui.splash.SplashActivity
 
 @Module
 abstract class BuildersModule {
@@ -19,7 +15,20 @@ abstract class BuildersModule {
      */
     @PerActivity
     @ContributesAndroidInjector
-    internal abstract fun conributeChooserActivity(): MainActivity
+    internal abstract fun contributeMainActivity(): MainActivity
 
+    @PerActivity
+    @ContributesAndroidInjector
+    internal abstract fun contributeSplashActivity(): SplashActivity
+
+    @PerActivity
+    @ContributesAndroidInjector
+    internal abstract fun contributeDownloadActivity(): DownloadActivity
+
+    //Fragments
+
+    @PerFragment
+    @ContributesAndroidInjector
+    internal abstract fun contributeSelectEditionFragment(): SelectEditionFragment
 
 }
