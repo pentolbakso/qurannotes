@@ -12,6 +12,7 @@ import com.kodebonek.qurannotes.data.remote.ApiService
 import com.kodebonek.qurannotes.data.repository.QuranRepository
 import com.kodebonek.qurannotes.data.repository.QuranRepositoryImpl
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,17 +46,13 @@ class AppModule(val app: App) {
     @Singleton
     @Provides
     internal fun provideRetrofit(): Retrofit {
-        /*
         val logInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
             message -> Timber.tag("OkHttp").d(message)
         })
         logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        */
 
         val builder = OkHttpClient.Builder()
-        //builder.addInterceptor(logInterceptor)
-        //builder.addInterceptor(HeaderInterceptor(session))
-        //builder.addInterceptor(UnauthorisedInterceptor())
+        builder.addInterceptor(logInterceptor)
         builder.connectTimeout(30, TimeUnit.SECONDS)
         builder.readTimeout(300, TimeUnit.SECONDS)
 
@@ -63,7 +60,6 @@ class AppModule(val app: App) {
                 .baseUrl(ApiService.BASE_URL)
                 .client(builder.build())
                 .addConverterFactory(GsonConverterFactory.create())
-                //.addCallAdapterFactory(LiveDataCallAdapterFactory.create())
                 .build()
     }
 

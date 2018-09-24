@@ -20,7 +20,7 @@ class SplashActivity: BaseActivity() {
     override fun initializeActivity(savedInstanceState: Bundle?) {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SplashViewModel::class.java)
 
-        Handler().postDelayed({ verifyDatabase() }, 500)
+        Handler().postDelayed({ verifyDatabase() }, 1000)
     }
 
     private fun verifyDatabase() {

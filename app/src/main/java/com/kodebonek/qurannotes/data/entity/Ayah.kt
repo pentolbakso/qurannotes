@@ -16,6 +16,14 @@ data class Ayah (
         var page: Int?,
         var ruku: Int?,
         var hizbQuarter: Int?,
-        var sajda: Boolean?,
+        //var sajda: Boolean?, TODO: add retrofit converter if you want to support sajda
+        /*
+                Boolean or Object
+                "sajda": {
+                    "id": 6,
+                    "recommended": true,
+                    "obligatory": false
+                }
+         */
         var surahNumber: Int    //foreignkey to parent
 )

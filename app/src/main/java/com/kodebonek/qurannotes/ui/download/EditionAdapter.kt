@@ -8,16 +8,28 @@ import android.widget.TextView
 import com.kodebonek.qurannotes.R
 import com.kodebonek.qurannotes.data.entity.Edition
 
-class EditionAdapter(private val onClick: (Edition) -> Unit): RecyclerView.Adapter<EditionViewHolder>() {
+
+class EditionAdapter(private val onClick: (Edition) -> Unit): RecyclerView.Adapter<EditionAdapter.EditionViewHolder>() {
+
+    private var selectedPos : Int = RecyclerView.NO_POSITION
 
     private val items = ArrayList<Edition>()
 
-    fun reset() = items.clear()
+    fun reset() {
+        selectedPos = RecyclerView.NO_POSITION
+        items.clear()
+        notifyDataSetChanged()
+    }
 
-    fun addItems(list: List<Edition>) = items.addAll(list)
+    fun addItems(list: List<Edition>) {
+        items.addAll(list)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EditionViewHolder {
-        return EditionViewHolder.create(parent)
+        val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_edition, parent, false)
+        return EditionViewHolder(view)
     }
 
     override fun getItemCount(): Int = items.size
@@ -27,23 +39,40 @@ class EditionAdapter(private val onClick: (Edition) -> Unit): RecyclerView.Adapt
         if (edition!=null)
             holder.bind(edition, onClick)
     }
-}
 
-class EditionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val tvName: TextView = view.findViewById(R.id.tvName)
-    private val tvDescription: TextView = view.findViewById(R.id.tvDescription)
+    inner class EditionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val tvName: TextView = view.findViewById(R.id.tvName)
+        private val tvDescription: TextView = view.findViewById(R.id.tvDescription)
 
-    companion object {
-        fun create(parent : ViewGroup) : EditionViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_edition, parent, false)
-            return EditionViewHolder(view)
+        /*
+        companion object {
+            fun create(parent : ViewGroup) : EditionViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.item_edition, parent, false)
+                return EditionViewHolder(view)
+            }
+        }
+        */
+
+        fun bind(edition: Edition?, onClick: (Edition) -> Unit) {
+            tvName.text = edition?.englishName.orEmpty()
+            tvDescription.text = "${edition?.language.orEmpty()} / ${edition?.type.orEmpty()} / ${edition?.format.orEmpty()}"
+            itemView.setOnClickListener {
+                if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+
+                notifyItemChanged(selectedPos)
+                selectedPos = adapterPosition
+                notifyItemChanged(selectedPos)
+
+                edition?.let(onClick)
+            }
+
+            itemView.setBackgroundColor(if (selectedPos == adapterPosition)
+                itemView.resources.getColor(R.color.green)
+                else itemView.resources.getColor(R.color.white)
+            )
         }
     }
 
-    fun bind(edition: Edition?, onClick: (Edition) -> Unit) {
-        tvName.text = edition?.englishName.orEmpty()
-        tvDescription.text = "${edition?.language.orEmpty()} / ${edition?.type.orEmpty()} / ${edition?.format.orEmpty()}"
-        itemView.setOnClickListener { edition?.let(onClick) }
-    }
 }
+

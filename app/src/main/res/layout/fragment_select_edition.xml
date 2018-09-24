@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/padding_page">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/label_download_edition_notes"/>
+        android:text="@string/label_download_edition_notes"
+        android:layout_marginBottom="@dimen/margin_large"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -22,8 +24,11 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <Button
+        android:id="@+id/btnDownload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_download"/>
+        style="@style/ButtonStyle.Clear"
+        android:text="@string/btn_download"
+        android:layout_marginTop="@dimen/margin_large"/>
 
 </LinearLayout>

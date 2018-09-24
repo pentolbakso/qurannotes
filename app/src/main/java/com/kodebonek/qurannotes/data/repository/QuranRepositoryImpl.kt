@@ -8,6 +8,7 @@ import com.kodebonek.qurannotes.data.entity.Resource
 import com.kodebonek.qurannotes.data.entity.Surah
 import com.kodebonek.qurannotes.data.remote.ApiResponse
 import com.kodebonek.qurannotes.data.remote.ApiService
+import com.kodebonek.qurannotes.data.remote.wrapper.CompleteQuranResponse
 import com.kodebonek.qurannotes.util.DataHelper
 import kotlinx.coroutines.experimental.launch
 import retrofit2.Call
@@ -42,9 +43,13 @@ class QuranRepositoryImpl(private val apiService: ApiService,
             }
 
             override fun onResponse(call: Call<ApiResponse<List<Edition>>>?, response: Response<ApiResponse<List<Edition>>>) {
-                if (response.isSuccessful)
-                    liveData.postValue(Resource.success(response.body()?.data))
-                else
+                if (response.isSuccessful) {
+                    val allowedLanguage = arrayOf("id","en","es","pt","fr")
+                    val filtered = response.body()?.data?.filter {
+                        allowedLanguage.indexOf(it.language.orEmpty()) >= 0
+                    }
+                    liveData.postValue(Resource.success(filtered))
+                } else
                     liveData.postValue(Resource.error(DataHelper.getErrorMessage(response.errorBody())))
             }
         })
@@ -58,15 +63,21 @@ class QuranRepositoryImpl(private val apiService: ApiService,
         liveData.postValue(Resource.loading())
 
         val call = apiService.getCompleteQuran(edition)
-        call.enqueue(object : Callback<ApiResponse<List<Surah>>> {
-            override fun onFailure(call: Call<ApiResponse<List<Surah>>>?, t: Throwable?) {
+        call.enqueue(object : Callback<ApiResponse<CompleteQuranResponse>> {
+            override fun onFailure(call: Call<ApiResponse<CompleteQuranResponse>>?, t: Throwable?) {
                 liveData.postValue(Resource.error(t?.message))
             }
 
-            override fun onResponse(call: Call<ApiResponse<List<Surah>>>?, response: Response<ApiResponse<List<Surah>>>) {
+            override fun onResponse(call: Call<ApiResponse<CompleteQuranResponse>>?, response: Response<ApiResponse<CompleteQuranResponse>>) {
                 if (response.isSuccessful) {
-                    //TODO inject to database
-                    liveData.postValue(Resource.success(true))
+                    launch {
+                        appDatabase.quranDao().clear()
+
+                        val surahs = response.body()?.data?.surahs
+                        appDatabase.quranDao().addAll(surahs)
+                        liveData.postValue(Resource.success(true))
+                    }
+
                 } else
                     liveData.postValue(Resource.error(DataHelper.getErrorMessage(response.errorBody())))
             }

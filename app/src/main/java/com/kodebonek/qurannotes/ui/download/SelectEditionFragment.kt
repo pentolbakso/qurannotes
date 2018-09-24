@@ -9,7 +9,6 @@ import com.kodebonek.qurannotes.R
 import com.kodebonek.qurannotes.data.entity.Edition
 import com.kodebonek.qurannotes.data.entity.Status
 import com.kodebonek.qurannotes.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.app_toolbar.*
 import kotlinx.android.synthetic.main.fragment_select_edition.*
 
 class SelectEditionFragment: BaseFragment() {
@@ -32,15 +31,25 @@ class SelectEditionFragment: BaseFragment() {
     override fun initializeAfterCreated() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SelectEditionViewModel::class.java)
 
-        toolbar.title = "Select Quran Edition"
+        activity?.title = "Select Quran Edition"
 
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
+        viewModel.setSelected(null)
+        viewModel.selectedEdition.observe(this, Observer {
+            btnDownload.isEnabled = it !== null
+            btnDownload.alpha = if (it !== null) 1f else .3f
+        })
+        btnDownload.setOnClickListener {
+            startDownload()
+        }
+
         swipeRefreshLayout.setOnRefreshListener {
             adapter.reset()
+            viewModel.setSelected(null)
             swipeRefreshLayout.isRefreshing = false
             loadEditions()
         }
@@ -51,7 +60,7 @@ class SelectEditionFragment: BaseFragment() {
     private fun loadEditions() {
         viewModel.getQuranEditions().observe(this, Observer {
             when(it?.status) {
-                Status.LOADING -> { showProgress(resources.getString(R.string.downloading)) }
+                Status.LOADING -> { showProgress(resources.getString(R.string.loading)) }
                 Status.ERROR -> {
                     dismissProgress()
                     showError(it?.message)
@@ -64,8 +73,23 @@ class SelectEditionFragment: BaseFragment() {
         })
     }
 
+    private fun startDownload() {
+        viewModel.downloadQuran().observe(this, Observer {
+            when(it?.status) {
+                Status.LOADING -> { showProgress(resources.getString(R.string.downloading)) }
+                Status.ERROR -> {
+                    dismissProgress()
+                    showError(it?.message)
+                }
+                Status.SUCCESS -> {
+                    dismissProgress()
+                }
+            }
+        })
+    }
+
     private fun onItemClick(edition: Edition) {
-        showInfo("Click on ${edition.englishName}")
+        viewModel.setSelected(edition)
     }
 
 }

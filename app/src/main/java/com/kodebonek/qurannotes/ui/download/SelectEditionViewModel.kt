@@ -11,11 +11,18 @@ import javax.inject.Inject
 class SelectEditionViewModel
 @Inject internal constructor(private val quranRepository: QuranRepository): ViewModel() {
 
+    val selectedEdition = MutableLiveData<Edition>()
+
+    fun setSelected(edition: Edition?) {
+        selectedEdition.postValue(edition)
+    }
+
     fun getQuranEditions(): LiveData<Resource<List<Edition>>> {
         return quranRepository.getQuranEditions()
     }
 
-    fun downloadQuran(edition: String): LiveData<Resource<Boolean>> {
-        return quranRepository.downloadQuran(edition)
+    fun downloadQuran(): LiveData<Resource<Boolean>> {
+        val id = selectedEdition.value?.identifier
+        return quranRepository.downloadQuran(id!!)
     }
 }
