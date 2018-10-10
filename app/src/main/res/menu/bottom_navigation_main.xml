@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_surahs"
+        android:enabled="true"
+        android:icon="@drawable/ic_surah_24dp"
+        android:title="@string/menu_surahs"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_search"
+        android:enabled="true"
+        android:icon="@drawable/ic_search_24dp"
+        android:title="@string/menu_search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_notes"
+        android:enabled="true"
+        android:icon="@drawable/ic_note_24dp"
+        android:title="@string/menu_notes"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:enabled="true"
+        android:icon="@drawable/ic_settings_24dp"
+        android:title="@string/menu_settings"
+        app:showAsAction="always" />
+
+</menu>

@@ -9,6 +9,8 @@ import com.kodebonek.qurannotes.ui.main.MainViewModel
 import com.kodebonek.qurannotes.ui.splash.SplashViewModel
 import com.kodebonek.qurannotes.viewmodel.MyViewModelFactory
 import com.kodebonek.qurannotes.ui.download.SelectEditionViewModel
+import com.kodebonek.qurannotes.ui.surah.SurahListViewModel
+import com.kodebonek.qurannotes.ui.surah.SurahViewModel
 
 /**
  * @author <@Po10cio> on 10/4/17 for KotlinDagger
@@ -35,6 +37,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SelectEditionViewModel::class)
     abstract fun bindSelectEditionViewModel(viewModel: SelectEditionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SurahListViewModel::class)
+    abstract fun bindSurahListViewModel(viewModel: SurahListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SurahViewModel::class)
+    abstract fun bindSurahViewModel(viewModel: SurahViewModel): ViewModel
 
     /**
      * Provides the MyViewModelFactory

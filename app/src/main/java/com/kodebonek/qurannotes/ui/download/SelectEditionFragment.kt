@@ -83,9 +83,14 @@ class SelectEditionFragment: BaseFragment() {
                 }
                 Status.SUCCESS -> {
                     dismissProgress()
+                    goToMain()
                 }
             }
         })
+    }
+
+    private fun goToMain() {
+        (activity as DownloadActivity).goToMain()
     }
 
     private fun onItemClick(edition: Edition) {

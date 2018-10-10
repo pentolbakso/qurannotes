@@ -1,5 +1,6 @@
 package com.kodebonek.qurannotes.data.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -17,5 +18,8 @@ interface QuranDao {
 
     @Query("SELECT COUNT(number) FROM quran")
     fun getSurahCount(): Int
+
+    @Query("SELECT * FROM quran")
+    fun getSurahs(): List<Surah>
 
 }

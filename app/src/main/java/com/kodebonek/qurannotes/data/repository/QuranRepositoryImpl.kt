@@ -24,7 +24,7 @@ class QuranRepositoryImpl(private val apiService: ApiService,
         liveData.postValue(Resource.loading())
         launch {
             val count = appDatabase.quranDao().getSurahCount()
-            //114 = number of ayah in Quran
+            //114 = number of surah in Quran
             liveData.postValue(Resource.success(count == 114))
         }
         return liveData
@@ -77,11 +77,23 @@ class QuranRepositoryImpl(private val apiService: ApiService,
                         appDatabase.quranDao().addAll(surahs)
                         liveData.postValue(Resource.success(true))
                     }
-
                 } else
                     liveData.postValue(Resource.error(DataHelper.getErrorMessage(response.errorBody())))
             }
         })
+        return liveData
+    }
+
+    override fun getSurahs(): LiveData<Resource<List<Surah>>> {
+        Timber.d("getSurahs")
+
+        val liveData = MutableLiveData<Resource<List<Surah>>>()
+        liveData.postValue(Resource.loading())
+
+        launch {
+            val surahs = appDatabase.quranDao().getSurahs()
+            liveData.postValue(Resource.success(surahs))
+        }
         return liveData
     }
 

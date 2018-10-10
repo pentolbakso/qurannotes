@@ -6,6 +6,8 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import com.kodebonek.qurannotes.ui.main.MainActivity
 import com.kodebonek.qurannotes.ui.splash.SplashActivity
+import com.kodebonek.qurannotes.ui.surah.SurahFragment
+import com.kodebonek.qurannotes.ui.surah.SurahListFragment
 
 @Module
 abstract class BuildersModule {
@@ -30,5 +32,13 @@ abstract class BuildersModule {
     @PerFragment
     @ContributesAndroidInjector
     internal abstract fun contributeSelectEditionFragment(): SelectEditionFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    internal abstract fun contributeSurahListFragment(): SurahListFragment
+
+    @PerFragment
+    @ContributesAndroidInjector
+    internal abstract fun contributeSurahFragment(): SurahFragment
 
 }

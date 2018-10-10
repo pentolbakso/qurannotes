@@ -44,16 +44,6 @@ class EditionAdapter(private val onClick: (Edition) -> Unit): RecyclerView.Adapt
         private val tvName: TextView = view.findViewById(R.id.tvName)
         private val tvDescription: TextView = view.findViewById(R.id.tvDescription)
 
-        /*
-        companion object {
-            fun create(parent : ViewGroup) : EditionViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.item_edition, parent, false)
-                return EditionViewHolder(view)
-            }
-        }
-        */
-
         fun bind(edition: Edition?, onClick: (Edition) -> Unit) {
             tvName.text = edition?.englishName.orEmpty()
             tvDescription.text = "${edition?.language.orEmpty()} / ${edition?.type.orEmpty()} / ${edition?.format.orEmpty()}"
