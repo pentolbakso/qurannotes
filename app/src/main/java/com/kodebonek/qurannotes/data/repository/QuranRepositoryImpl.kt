@@ -3,6 +3,7 @@ package com.kodebonek.qurannotes.data.repository
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.kodebonek.qurannotes.data.db.AppDatabase
+import com.kodebonek.qurannotes.data.entity.Ayah
 import com.kodebonek.qurannotes.data.entity.Edition
 import com.kodebonek.qurannotes.data.entity.Resource
 import com.kodebonek.qurannotes.data.entity.Surah
@@ -14,6 +15,7 @@ import kotlinx.coroutines.experimental.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import rx.Observable
 import timber.log.Timber
 
 class QuranRepositoryImpl(private val apiService: ApiService,
@@ -96,5 +98,19 @@ class QuranRepositoryImpl(private val apiService: ApiService,
         }
         return liveData
     }
+
+    override fun getAyahs(surahNumber: Int): LiveData<Resource<List<Ayah>>> {
+        Timber.d("getAyahs")
+
+        val liveData = MutableLiveData<Resource<List<Ayah>>>()
+        liveData.postValue(Resource.loading())
+
+        launch {
+            val ayahs = appDatabase.quranDao().getAyahs(surahNumber)
+            liveData.postValue(Resource.success(ayahs))
+        }
+        return liveData
+    }
+
 
 }
