@@ -9,7 +9,8 @@ import com.kodebonek.qurannotes.R
 import com.kodebonek.qurannotes.data.entity.Status
 import com.kodebonek.qurannotes.data.entity.Surah
 import com.kodebonek.qurannotes.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.fragment_select_edition.*
+import com.kodebonek.qurannotes.ui.main.MainActivity
+import kotlinx.android.synthetic.main.fragment_surah_list.*
 
 class SurahListFragment: BaseFragment() {
 
@@ -39,6 +40,11 @@ class SurahListFragment: BaseFragment() {
         loadSurahs()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).setPageTitle(resources.getString(R.string.app_name))
+    }
+
     private fun loadSurahs() {
         viewModel.getSurahs().observe(this, Observer {
             when(it?.status) {
@@ -52,7 +58,8 @@ class SurahListFragment: BaseFragment() {
     }
 
     private fun onSurahClick(surah: Surah) {
-        showInfo(surah.englishName)
+        //showInfo(surah.englishName)
+        (activity as MainActivity).addFragment(SurahFragment.newInstance(surah), true)
     }
 
 }

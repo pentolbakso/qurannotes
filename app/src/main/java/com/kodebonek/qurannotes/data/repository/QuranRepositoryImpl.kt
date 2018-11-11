@@ -59,7 +59,7 @@ class QuranRepositoryImpl(private val apiService: ApiService,
     }
 
     override fun downloadQuran(edition: String): LiveData<Resource<Boolean>> {
-        Timber.d("downloadQuran edition:" + edition)
+        Timber.d("downloadQuran edition: ${edition}")
 
         val liveData = MutableLiveData<Resource<Boolean>>()
         liveData.postValue(Resource.loading())
@@ -74,9 +74,17 @@ class QuranRepositoryImpl(private val apiService: ApiService,
                 if (response.isSuccessful) {
                     launch {
                         appDatabase.quranDao().clear()
+                        appDatabase.ayahDao().clear()
 
                         val surahs = response.body()?.data?.surahs
                         appDatabase.quranDao().addAll(surahs)
+                        surahs?.forEach {
+                            val surahNumber = it.number
+                            it.ayahs?.forEach {
+                                it.surahNumber = surahNumber!!
+                            }
+                            appDatabase.ayahDao().addAll(it.ayahs)
+                        }
                         liveData.postValue(Resource.success(true))
                     }
                 } else
@@ -100,13 +108,14 @@ class QuranRepositoryImpl(private val apiService: ApiService,
     }
 
     override fun getAyahs(surahNumber: Int): LiveData<Resource<List<Ayah>>> {
-        Timber.d("getAyahs")
+        Timber.d("getAyahs surah:${surahNumber}")
 
         val liveData = MutableLiveData<Resource<List<Ayah>>>()
         liveData.postValue(Resource.loading())
 
         launch {
             val ayahs = appDatabase.quranDao().getAyahs(surahNumber)
+            Timber.d("getAyah result : ${ayahs.size}")
             liveData.postValue(Resource.success(ayahs))
         }
         return liveData

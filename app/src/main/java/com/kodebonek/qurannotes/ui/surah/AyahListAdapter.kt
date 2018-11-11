@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.kodebonek.qurannotes.R
 import com.kodebonek.qurannotes.data.entity.Ayah
 
@@ -35,14 +36,11 @@ class AyahListAdapter (private val onClick: (Ayah) -> Unit): RecyclerView.Adapte
             holder.bind(edition, onClick)
     }
     inner class AyahViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        //private val tvNumber: TextView = view.findViewById(R.id.tvNumber)
-        //private val tvName: TextView = view.findViewById(R.id.tvName)
-        //private val tvTranslation: TextView = view.findViewById(R.id.tvTranslation)
+        private val tvTranslation: TextView = view.findViewById(R.id.tvTranslation)
+        private val tvAyah: TextView = view.findViewById(R.id.tvAyah)
 
         fun bind(ayah: Ayah?, onClick: (Ayah) -> Unit) {
-            //tvNumber.text = surah?.number.toString()
-            //tvName.text = surah?.englishName.orEmpty()
-            //tvTranslation.text = surah?.englishNameTranslation.orEmpty()
+            tvTranslation.text = "[${ayah?.numberInSurah}]  ${ayah?.text.orEmpty()}"
             itemView.setOnClickListener {
                 ayah?.let(onClick)
             }
