@@ -2,6 +2,7 @@ package com.kodebonek.qurannotes.ui.splash
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +11,7 @@ import com.kodebonek.qurannotes.data.entity.Status
 import com.kodebonek.qurannotes.ui.base.BaseActivity
 import com.kodebonek.qurannotes.ui.download.DownloadActivity
 import com.kodebonek.qurannotes.ui.main.MainActivity
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 class SplashActivity: BaseActivity() {
 

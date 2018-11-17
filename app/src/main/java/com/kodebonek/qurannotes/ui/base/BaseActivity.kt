@@ -1,6 +1,7 @@
 package com.kodebonek.qurannotes.ui.base
 
 import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -10,6 +11,7 @@ import com.djakartalloyd.dlmarket.util.ProgressHelper
 import com.kodebonek.qurannotes.R
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.design_layout_snackbar_include.view.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,6 +40,10 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
         progress = ProgressHelper(this)
 
         initializeActivity(savedInstanceState)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
     open fun showInfo(message: String?) {

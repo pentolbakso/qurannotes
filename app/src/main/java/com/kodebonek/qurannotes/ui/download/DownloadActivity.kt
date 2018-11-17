@@ -1,10 +1,12 @@
 package com.kodebonek.qurannotes.ui.download
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.kodebonek.qurannotes.R
 import com.kodebonek.qurannotes.ui.base.BaseActivity
 import com.kodebonek.qurannotes.ui.main.MainActivity
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import kotlinx.android.synthetic.main.app_toolbar.*
 
 class DownloadActivity: BaseActivity() {
