@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.view.View
 import com.kodebonek.qurannotes.R
 import com.kodebonek.qurannotes.ui.base.BaseActivity
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_toolbar.*
 import kotlinx.android.synthetic.main.app_toolbar.view.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
 
     private lateinit var mainViewModel: MainViewModel
 
@@ -23,13 +24,15 @@ class MainActivity : BaseActivity() {
         mainViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        //supportActionBar?.setDisplayShowHomeEnabled(true)
-        //supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
         bottomNavigation.inflateMenu(R.menu.bottom_navigation_main)
         bottomNavigation.selectedItemId = R.id.action_surahs
+
+        btnBack.setOnClickListener {
+            supportFragmentManager.popBackStack()
+        }
+        supportFragmentManager.addOnBackStackChangedListener(this)
 
         //always show icon+text
         UiHelper.disableShiftMode(bottomNavigation)
@@ -59,13 +62,17 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun setPageTitle(title: String?, subtitle: String? = null) {
-        toolbar.tvTitle.text = title.orEmpty()
-        if (subtitle != null) {
-            toolbar.tvSubtitle.text = subtitle
-            toolbar.tvSubtitle.visibility = View.VISIBLE
+    override fun onDestroy() {
+        super.onDestroy()
+        supportFragmentManager.removeOnBackStackChangedListener(this)
+    }
+
+    override fun onBackStackChanged() {
+        if (supportFragmentManager.backStackEntryCount>0) {
+            btnBack.visibility = View.VISIBLE
         } else {
-            toolbar.tvSubtitle.visibility = View.GONE
+            btnBack.visibility = View.GONE
+            pageTitle(resources.getString(R.string.app_name))
         }
     }
 

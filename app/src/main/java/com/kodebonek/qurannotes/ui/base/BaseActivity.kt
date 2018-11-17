@@ -7,11 +7,14 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.djakartalloyd.dlmarket.util.ProgressHelper
 import com.kodebonek.qurannotes.R
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
+import kotlinx.android.synthetic.main.app_toolbar.*
+import kotlinx.android.synthetic.main.app_toolbar.view.*
 import kotlinx.android.synthetic.main.design_layout_snackbar_include.view.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -44,6 +47,16 @@ abstract class BaseActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+    }
+
+    open fun pageTitle(title: String, subtitle: String? = null) {
+        if (toolbar == null) return
+        toolbar.tvTitle.text = title
+        if (subtitle != null) {
+            toolbar.tvSubtitle.visibility = View.VISIBLE
+            toolbar.tvSubtitle.text = subtitle
+        } else
+            toolbar.tvSubtitle.visibility = View.GONE
     }
 
     open fun showInfo(message: String?) {

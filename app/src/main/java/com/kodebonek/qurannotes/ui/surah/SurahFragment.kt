@@ -5,6 +5,9 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.kodebonek.qurannotes.R
 import com.kodebonek.qurannotes.data.entity.Ayah
 import com.kodebonek.qurannotes.data.entity.Status
@@ -38,6 +41,8 @@ class SurahFragment: BaseFragment() {
 
         surah = arguments?.getParcelable("surah")!!
 
+        setHasOptionsMenu(true)
+
         val decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         recyclerView.adapter = listAdapter
@@ -55,7 +60,7 @@ class SurahFragment: BaseFragment() {
         var subtitle = surah.englishNameTranslation
         if (ayahCount>0)
             subtitle = "${subtitle} (${ayahCount} ayahs)"
-        (activity as MainActivity).setPageTitle("${surah.number}. ${surah.englishName.orEmpty().toUpperCase()}", subtitle)
+        (activity as MainActivity).pageTitle("${surah.number}. ${surah.englishName.orEmpty().toUpperCase()}", subtitle)
     }
 
     private fun loadAyahs() {
@@ -74,4 +79,17 @@ class SurahFragment: BaseFragment() {
     private fun onAyahClick(ayah: Ayah) {
         showInfo("clicked on ayah ${ayah.numberInSurah}")
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.menu_surah, menu);
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+        if (id == R.id.action_text_settings) {
+            showInfo("Text settins")
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
 }

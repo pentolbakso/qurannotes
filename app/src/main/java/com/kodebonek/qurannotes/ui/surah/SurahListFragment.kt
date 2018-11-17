@@ -42,7 +42,7 @@ class SurahListFragment: BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        (activity as MainActivity).setPageTitle(resources.getString(R.string.app_name))
+        (activity as MainActivity).pageTitle(resources.getString(R.string.app_name))
     }
 
     private fun loadSurahs() {

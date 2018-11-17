@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_text_search"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/menu_search"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_text_settings"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_text_fields_24dp"
+        android:title="@string/menu_text_settings"
+        app:showAsAction="always"/>
+</menu>
