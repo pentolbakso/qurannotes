@@ -37,10 +37,17 @@ class AyahListAdapter (private val onClick: (Ayah) -> Unit): RecyclerView.Adapte
     }
     inner class AyahViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val tvTranslation: TextView = view.findViewById(R.id.tvTranslation)
-        private val tvAyah: TextView = view.findViewById(R.id.tvAyah)
+        private val tvArabic: TextView = view.findViewById(R.id.tvArabic)
 
         fun bind(ayah: Ayah?, onClick: (Ayah) -> Unit) {
             tvTranslation.text = "[${ayah?.numberInSurah}]  ${ayah?.text.orEmpty()}"
+            //remove basmallah header on first ayah , except for Al-Fatihah & At-Taubah
+            if (ayah?.numberInSurah == 1 && ayah?.surahNumber!= 1 && ayah?.surahNumber != 9) {
+                val arabicWithoutBismillah = ayah?.arabic?.substring(39)
+                tvArabic.text = arabicWithoutBismillah
+            } else
+                tvArabic.text = ayah?.arabic
+
             itemView.setOnClickListener {
                 ayah?.let(onClick)
             }

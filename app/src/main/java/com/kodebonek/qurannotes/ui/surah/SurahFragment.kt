@@ -74,6 +74,4 @@ class SurahFragment: BaseFragment() {
     private fun onAyahClick(ayah: Ayah) {
         showInfo("clicked on ayah ${ayah.numberInSurah}")
     }
-
-
 }

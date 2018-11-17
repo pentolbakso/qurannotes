@@ -13,6 +13,7 @@ import kotlinx.android.parcel.Parcelize
 data class Ayah (
         @PrimaryKey var number: Int?,
         var text: String?,
+        var arabic: String?,
         var numberInSurah: Int?,
         var juz: Int?,
         var manzil: Int?,

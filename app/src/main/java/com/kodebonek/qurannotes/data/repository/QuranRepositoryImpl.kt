@@ -58,8 +58,37 @@ class QuranRepositoryImpl(private val apiService: ApiService,
         return liveData
     }
 
-    override fun downloadQuran(edition: String): LiveData<Resource<Boolean>> {
-        Timber.d("downloadQuran edition: ${edition}")
+    override fun downloadQuranTranslation(edition: String): LiveData<Resource<List<Surah>>> {
+        Timber.d("downloadQuranTranslation edition: ${edition}")
+
+        val liveData = MutableLiveData<Resource<List<Surah>>>()
+        liveData.postValue(Resource.loading())
+
+        val call = apiService.getCompleteQuran(edition)
+        call.enqueue(object : Callback<ApiResponse<CompleteQuranResponse>> {
+            override fun onFailure(call: Call<ApiResponse<CompleteQuranResponse>>?, t: Throwable?) {
+                liveData.postValue(Resource.error(t?.message))
+            }
+
+            override fun onResponse(call: Call<ApiResponse<CompleteQuranResponse>>?, response: Response<ApiResponse<CompleteQuranResponse>>) {
+                if (response.isSuccessful) {
+                    val surahs = response.body()?.data?.surahs
+                    surahs?.forEach {
+                        val surahNumber = it.number
+                        it.ayahs?.forEach {
+                            it.surahNumber = surahNumber!!
+                        }
+                    }
+                    liveData.postValue(Resource.success(surahs))
+                } else
+                    liveData.postValue(Resource.error(DataHelper.getErrorMessage(response.errorBody())))
+            }
+        })
+        return liveData
+    }
+
+    override fun downloadQuranArabicAndSave(edition: String, translations: List<Surah>): LiveData<Resource<Boolean>> {
+        Timber.d("downloadQuranArabicAndSave edition: ${edition}")
 
         val liveData = MutableLiveData<Resource<Boolean>>()
         liveData.postValue(Resource.loading())
@@ -73,18 +102,38 @@ class QuranRepositoryImpl(private val apiService: ApiService,
             override fun onResponse(call: Call<ApiResponse<CompleteQuranResponse>>?, response: Response<ApiResponse<CompleteQuranResponse>>) {
                 if (response.isSuccessful) {
                     launch {
+                        //merge arabic and translation
+                        val ayahs = ArrayList<Ayah>()
+                        translations?.forEach {
+                            ayahs.addAll(it.ayahs!!)
+                        }
+
+                        val arabicSurahs = response.body()?.data?.surahs
+                        val arabics = ArrayList<String>()
+                        arabicSurahs?.forEach {
+                            it.ayahs?.forEach {
+                                arabics.add(it.text!!)
+                            }
+                        }
+
+                        if (ayahs.size !== arabics.size) {
+                            liveData.postValue(Resource.error("Invalid number of ayahs, please redownload"))
+                            return@launch
+                        }
+
+                        //update arabic field
+                        var i = 0;
+                        ayahs.forEach{
+                            it.arabic = arabics[i]
+                            i++
+                        }
+
                         appDatabase.quranDao().clear()
                         appDatabase.ayahDao().clear()
 
-                        val surahs = response.body()?.data?.surahs
-                        appDatabase.quranDao().addAll(surahs)
-                        surahs?.forEach {
-                            val surahNumber = it.number
-                            it.ayahs?.forEach {
-                                it.surahNumber = surahNumber!!
-                            }
-                            appDatabase.ayahDao().addAll(it.ayahs)
-                        }
+                        //save to db
+                        appDatabase.quranDao().addAll(translations)
+                        appDatabase.ayahDao().addAll(ayahs)
                         liveData.postValue(Resource.success(true))
                     }
                 } else

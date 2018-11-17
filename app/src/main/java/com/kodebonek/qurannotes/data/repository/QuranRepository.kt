@@ -10,7 +10,8 @@ interface QuranRepository {
 
     fun verifyQuranDatabase(): LiveData<Resource<Boolean>>
     fun getQuranEditions(): LiveData<Resource<List<Edition>>>
-    fun downloadQuran(edition: String): LiveData<Resource<Boolean>>
+    fun downloadQuranTranslation(edition: String): LiveData<Resource<List<Surah>>>
+    fun downloadQuranArabicAndSave(edition: String, surahs: List<Surah>): LiveData<Resource<Boolean>>
     fun getSurahs(): LiveData<Resource<List<Surah>>>
     fun getAyahs(surahNumber: Int): LiveData<Resource<List<Ayah>>>
 }

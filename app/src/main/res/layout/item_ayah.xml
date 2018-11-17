@@ -3,18 +3,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_normal">
-
+    <TextView
+        android:id="@+id/tvArabic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:text=""
+        android:textSize="@dimen/textsize_large"
+        android:layout_marginBottom="@dimen/margin_normal"/>
     <TextView
         android:id="@+id/tvTranslation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="start"
         android:text="Translation"
         android:textSize="@dimen/textsize_normal"/>
-
-    <TextView
-        android:id="@+id/tvAyah"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""/>
-
 </LinearLayout>
