@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_normal">
     <TextView
@@ -9,13 +12,16 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:text=""
-        android:textSize="@dimen/textsize_large"
-        android:layout_marginBottom="@dimen/margin_normal"/>
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:fontPath="fonts/quran/LPMQ.ttf"
+        android:layout_marginBottom="@dimen/margin_normal"
+        tools:ignore="MissingPrefix" />
     <TextView
         android:id="@+id/tvTranslation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
         android:text="Translation"
-        android:textSize="@dimen/textsize_normal"/>
+        android:textSize="@dimen/textsize_small"/>
 </LinearLayout>
